@@ -1,8 +1,15 @@
 <template>
   <div class="signup">
     <h1>{{title}}</h1>
-    <input v-model="message" placeholder="edit me">
-    <p>Message is: {{ message }}</p>
+    <form>
+      First Name: <br>
+      <input v-model="fname" placeholder="first name"><br>
+      Last Name: <br>
+      <input v-model="lname" placeholder="last name"><br>
+      Email: <br>
+      <input v-model="email" placeholder="email@address.com"> <br>
+      <input type="submit" value="Submit">
+    </form>
   </div>
 </template>
 
