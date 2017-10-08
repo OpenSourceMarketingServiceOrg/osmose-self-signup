@@ -1,13 +1,13 @@
 <template>
-  <div class="signup">
+  <div id='signup'>
     <h1>{{title}}</h1>
-    <form>
+    <form novalidate v-on:submit.prevent='adduser'>
       First Name: <br>
-      <input v-model="fname" placeholder="first name"><br>
+      <input v-model.lazy.trim='user.fname' placeholder='first name'><br>
       Last Name: <br>
-      <input v-model="lname" placeholder="last name"><br>
+      <input v-model.lazy.trim='user.lname' placeholder='last name'><br>
       Email: <br>
-      <input v-model="email" placeholder="email@address.com"> <br>
+      <input v-model.lazy.trim='user.email' placeholder='email@address.com'> <br>
       <input type="submit" value="Submit">
     </form>
   </div>
@@ -15,10 +15,24 @@
 
 <script>
 export default {
-  name: 'SelfSignUp',
-  data () {
-    return {
-      title: 'This is my title'
+  data: () => ({
+    title: ' This is my Title!',
+    user: {
+      fname: '',
+      lname: '',
+      email: ''
+    }
+  }),
+  computed: {
+    users () {
+      console.log('computed called')
+      // return this.$store.state.users.reverse();
+    }
+  },
+  methods: {
+    adduser () {
+      console.log('user: ', this.user)
+      // return this.$store.commit('addUser', JSON.parse(JSON.stringify(this.user)));
     }
   }
 }
