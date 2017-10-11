@@ -8,13 +8,19 @@
       <input v-model.lazy.trim='user.lname' placeholder='last name'><br>
       Email: <br>
       <input v-model.lazy.trim='user.email' placeholder='email@address.com'> <br>
-      <input type="submit" value="Submit">
+      <input type='submit' value='Submit'>
     </form>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import VueResource from 'vue-resource'
+import Api from '../mixins/api'
+Vue.use(VueResource)
+
 export default {
+  name: 'self-signup',
   data: () => ({
     title: ' This is my Title!',
     user: {
@@ -23,6 +29,7 @@ export default {
       email: ''
     }
   }),
+  mixins: [Api],
   computed: {
     users () {
       console.log('computed called')
@@ -32,6 +39,13 @@ export default {
   methods: {
     adduser () {
       console.log('user: ', this.user)
+      console.log('api: ', Api.post)
+      this.$http.post(Api.post, this.user).then(res => {
+        console.log('res: ', res)
+      },
+      err => {
+        console.log('err: ', err)
+      })
       // return this.$store.commit('addUser', JSON.parse(JSON.stringify(this.user)));
     }
   }
