@@ -31,27 +31,28 @@
       <form name="ssForm" novalidate v-on:submit.prevent="adduser">
         <div class="input-field col s12">
           <i class="material-icons prefix">account_circle</i>
-          <input required v-model.lazy.trim='user.fname' name="first_name" id="first_name" type="text" class="p-sans">
+          <input required v-model.lazy.trim='user.fname' name="first_name" id="first_name" type="text" class="p-sans" v-bind:disabled="shouldDisable">
           <label class="p-sans" for="first_name">First Name</label>
         </div>
         <div class="input-field col s12">
           <i class="material-icons prefix">account_circle</i>
-          <input required v-model.lazy.trim='user.lname' name="last_name" id="last_name" type="text" class="p-sans">
+          <input required v-model.lazy.trim='user.lname' name="last_name" id="last_name" type="text" class="p-sans" v-bind:disabled="shouldDisable">
           <label class="p-sans" for="last_name">Last Name</label>
         </div>
         <div class="input-field col s12">
           <i class="material-icons prefix">email</i>
-          <input required v-model.lazy.trim='user.email' name="email_address" id="email_address" type="email" class="validate p-sans">
+          <input required v-model.lazy.trim='user.email' name="email_address" id="email_address" type="email" class="validate p-sans" v-bind:disabled="shouldDisable">
           <label for="email_address" class="p-sans">Email Address</label>
         </div>
         
         <div class="col s12">
-          <button type="submit" v-bind:disabled="(!user.fname || !user.lname || !isEmail(user.email))" value="Submit" class="btn btn-success waves-effect waves-light ">Submit</button>
+          <button type="submit" v-bind:disabled="(!user.fname || !user.lname || shouldDisable || !isEmail(user.email))" value="Submit" class="btn btn-success waves-effect waves-light ">Submit</button>
         </div>
       </form>
     </div>
   </div>
 </template>
+// reCapcha frontend box
 // <div class="g-recaptcha" data-sitekey="6LfnQzcUAAAAAClUO0Cc1zej4EMlAsi3pc5jkfzT"></div>
 <script>
 import Materialize from 'materialize-css/dist/js/materialize.min.js';
@@ -60,6 +61,7 @@ export default {
   data: () => ({
     title: 'OSMOSe Self-Signup',
     ssForm: {},
+    shouldDisable: false,
     user: {
       fname: '',
       lname: '',
@@ -72,33 +74,33 @@ export default {
   computed: {
     users () {
       console.log('computed called');
-      // return this.$store.state.users.reverse();
     }
   },
   methods: {
     adduser () {
       console.log(this.user);
-      // return this.$store.commit('addUser', JSON.parse(JSON.stringify(this.user)));
-      this.$http.post('https://fqyy1uh5ui.execute-api.us-east-1.amazonaws.com/dev0/email', this.user)
+      this.$http.post('https://fqyy1uh5ui.execute-api.us-east-1.amazonaws.com/dev0/list', this.user)
         .then((res) => {
           console.log(res);
           let successMsg = `<div class="toaster"><i class="material-icons" style="margin-right:8px;">check</i><span>Sign Up Success!</span></div>`;
-          Materialize.toast(successMsg, 10000, 'green');
-          this.user = {
-            fname: '',
-            lname: '',
-            email: ''
-          };
-          this.ssForm.disabled = true;
+          this.clearIt(successMsg, 'green');
         }).catch((err) => {
           console.log(err);
           let errorMsg = `<div class="toaster"><i class="material-icons" style="margin-right:8px;">error</i><span>Error Signing Up</span></div>`;
-          Materialize.toast(errorMsg, 10000, 'red');
+          this.clearIt(errorMsg, 'red');
         });
+    },
+    clearIt (msg, msgClass) {
+      Materialize.toast(msg, 10000, msgClass);
+      this.user = {
+        fname: '',
+        lname: '',
+        email: ''
+      };
+      this.shouldDisable = true;
     },
     botKilla () {
       console.log(this.user);
-      // return this.$store.commit('addUser', JSON.parse(JSON.stringify(this.user)));
       this.$http.post('https://www.google.com/recaptcha/api/siteverify', this.user)
         .then((res) => {
           console.log(res);
