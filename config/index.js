@@ -8,7 +8,8 @@ module.exports = {
   build: {
     distPath: '../dist/',
     compPath: '../src/components/',
-    srcPath: '../src/'
+    srcPath: '../src/',
+    productionSourceMap: true
   },
   dev: {
     env: require('./dev.env'),
