@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
-    "build": "node build/build.js",
+    "build": "rimraf ./dist && webpack --config ./webpack.config.js",
     "clean": "npm run clean:n && npm run clean:b",
     "clean:n": "rm -rf node_modules",
     "clean:pc": "rimraf node_modules",
