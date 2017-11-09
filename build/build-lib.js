@@ -1,17 +1,19 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
+const config = require('../config');
+const baseWebpackConfig = require('./webpack.base.conf')
 
-let config = {
+let libConfig = {
   output: {
-    path: path.resolve(__dirname + '/dist/'),
+    path: path.resolve(config.build.distPath),
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
         loader: 'babel',
-        include: __dirname,
+        include: path.resolve(config.build.srcPath),
         exclude: /node_modules/
       },
       {
@@ -23,9 +25,6 @@ let config = {
         loader: 'style!less!css'
       }
     ]
-  },
-  externals: {
-    moment: 'moment'
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin( {
@@ -40,19 +39,18 @@ let config = {
 };
 
 
+
 module.exports = [
-  merge(config, {
-    entry: path.resolve(__dirname + '/src/component/SelfSignUpPlugin.js'),
+  merge(baseWebpackConfig, {
     output: {
-      filename: 'om-self-signup.min.js',
+      filename: 'dist/om-self-signup.min.js',
       libraryTarget: 'window',
       library: 'OSMoSEselfSignup',
     }
   }),
-  merge(config, {
-    entry: path.resolve(__dirname + '/src/component/SelfSignUp.vue'),
+  merge(baseWebpackConfig, {
     output: {
-      filename: 'om-self-signup.js',
+      filename: 'dist/om-self-signup.js',
       libraryTarget: 'umd',
       library: 'OSMoSEselfSignup',
       umdNamedDefine: true
