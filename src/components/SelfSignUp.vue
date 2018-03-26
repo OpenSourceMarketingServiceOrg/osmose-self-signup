@@ -79,7 +79,7 @@ export default {
   methods: {
     adduser () {
       console.log(this.user);
-      this.$http.post('https://fqyy1uh5ui.execute-api.us-east-1.amazonaws.com/dev0/list', this.user)
+      this.$http.post('https://zsazrlvshe.execute-api.us-east-1.amazonaws.com/dev1/list', this.user)
         .then((res) => {
           console.log(res);
           let successMsg = `<div class="toaster"><i class="material-icons" style="margin-right:8px;">check</i><span>Sign Up Success!</span></div>`;
