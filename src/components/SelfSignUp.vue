@@ -59,14 +59,12 @@ export default {
   props: ['image', 'title', 'api', 'options'],
   methods: {
     addSubscriber () {
-      console.log(this.user);
       this.$http.post(this.api.post, this.user)
         .then((res) => {
-          console.log(res);
           let successMsg = `<div class="toaster"><i class="material-icons" style="margin-right:8px;">check</i><span>Sign Up Success!</span></div>`;
           this.clearIt(successMsg, 'green');
         }).catch((err) => {
-          console.log(err);
+          console.error(err);
           let errorMsg = `<div class="toaster"><i class="material-icons" style="margin-right:8px;">error</i><span>Error Signing Up</span></div>`;
           this.clearIt(errorMsg, 'red');
         });
@@ -82,20 +80,17 @@ export default {
       this.shouldDisable = true;
     },
     botKilla () { // This will be implemented later.
-      // console.log(this.user);
       this.$http.post('https://www.google.com/recaptcha/api/siteverify', this.user)
         .then((res) => {
-          // console.log(res);
           Materialize.toast(`<div class="toaster"><i class="material-icons" style="margin-right:8px;">check</i><span>Sign Up Success!</span></div>`, 10000, 'green');
         }).catch((err) => {
-          console.log(err);
+          console.error(err);
           Materialize.toast(`<div class="toaster"><i class="material-icons" style="margin-right:8px;">error</i><span>Error Signing Up</span></div>`, 10000, 'red');
         });
     },
     isEmail (email) {
       // eslint-disable-next-line
       let ePattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      // console.log(ePattern.test(email));
       return ePattern.test(email);
     }
   }
