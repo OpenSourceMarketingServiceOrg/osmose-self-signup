@@ -1,6 +1,6 @@
 <template>
   <div id='signup'>
-    <img :src="image.url" :alt="image.alt" :height="image.height" :width="image.width" />
+    <img v-if="image.url" :src="image.url" :alt="image.alt" :height="image.height" :width="image.width" />
     <h1 class="h-serif">{{title}}</h1>
 
     <div class="row">
